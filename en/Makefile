@@ -1,4 +1,11 @@
 # -*- mode:makefile; -*-
+# Copyright, 2012, Chaofeng Wang, owen263@gmail.com.
+# You are free:
+# to Share — to copy, distribute and transmit the work.
+# to Remix — to adapt the work.
+# to make commercial use of the work.
+# Under the following conditions:
+# Attribution — You must attribute this work to the author.
 
 # Specify your variables here.
 
@@ -87,7 +94,6 @@ clean:
 
 touch :
 	-rm $(targets)
-#	-rm enMain.pdf *.bbl *.aux *.blg enMain.idx enMain.ilg enMain.lof enMain.lot enMain.toc enMain-blx.bib enMain.out enMain.ind enMain.run.xml enMain.nl?
 
 clean-all :
 	rm -f *.aux *.bbl *.blg *.log *.lof *.lot *.out *.toc *.pdf chapter/*.aux
