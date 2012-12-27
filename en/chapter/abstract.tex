@@ -1,0 +1,28 @@
+
+\begin{cnAbstract}
+
+荧光显微镜的优点之一在于它的荧光信号可以量化或者数字化。时下越来越多的研究工作致力于分析数字荧光信号，运用数据挖掘和数学建模方法从生物样本各种荧光标记中来寻找有生物学意义的内在关系。本论文中所涉及的工作就是着手开发荧光信号数据的处理和分析的自动化计算工具，处理包括一种新兴的仪器——体内流式细胞仪（IVFC）的信号数据，和用于定量分析细胞形态的普通成像系统的图像数据。
+
+我们开发了一种计算方法，以便在体内流式细胞仪（IVFC）的时间信号中检测细胞并对细胞进行记数。IVFC用来获取静脉中流经设定共聚焦平面上、被标记的血细胞发出的荧光信号，这对癌症研究而言是一种很有前途的工具。信号首先用小波（Wavelet）算法降噪，然后使用一种有限态自动机（FSA）程序来确定细胞的信号峰。这种完全自动化的方法在性能上可以与传统的半自动化的划线分离方法（LSM）相媲美。
+
+为了对成组的细胞荧光图像的形态特征进行量化，我们提出了基于骨架化的模型来分析末端生长细胞（TGC）的细胞形态，比如花粉管和神经细胞的形态。我们展示了基于骨架化的细胞形态特征能够很好地用于真实和虚拟的花粉管图像数据的聚类（使用主成分分析，PCA）和分类（使用随机森林分类方法, random forest classification）。另外，生物二维图像数据通常被污染物损坏，或者存在细胞交叉重叠的问题，这会严重影响到图像分割的质量，因此，我们提出了一种名为“图像分割辅助工具”（ISAT）用以辅助人工对这些低质量的图像进行预处理。
+
+\cnKeywords{体内流式细胞仪，小波算法，荧光显微镜，细胞形态，定量分析}
+% {细胞形态，末端生长，花粉管，神经，分支，膨大}
+
+\end{cnAbstract}
+
+\begin{abstract}
+
+Since the fluorescence signals from fluorescence microscopy are easy to be quantified, nowadays increasingly many studies work on the quantitative fluorescence signals, aiming at mining and modeling the intrinsic relation with biological significance. The works involved in this thesis are embarking on developing computational tools to automate the processing and analysis of fluoresence signal data either from a newly established instrument, namely \acf{IVFC}, or from a common imaging system when morphological quantification is demanded.
+
+We developed a computational method to detect cell peaks in time signals from a so-called \ac{IVFC}. An IVFC detects fluorescence signals from labelled blood cells flowing through a vein on a confocal plane, and is a promising tool for cancer research. The signals are first de-noised by a wavelet-based routine, and then the cell peaks are identified using a \acf{FSA} procedure. This fully automated method is comparable in performance to a traditional semi-automated line separating method (LSM). By assumptions that the cell peaks can be considered as outliers and that the noise peaks can be fit into a two-component Gaussian mixture models, we propose another cell peak picking method, namely \acf{GMTM}, and it is shown that \acs{GMTM} maintains higher \acf{TPR} when \acf{SNR} is very low as compared to the previously established wavelet-based method.
+
+In order to model and quantify morphological features from sets of cell fluorescence images, we propose a skeletonization based model to account for the cell morphologies which are shown in \acfp{TGC} like pollen tubes and neurons. We exemplify the clustering and classification power of our skeleton-based features on both real and simulated pollen tube images, with \acl{PCA} analysis and random forest classification. Since the 2D biological image data is usually corrupted by pollutants and cross-over of cells, which seriously hinders cell image segmentation, we proposed a so-called \acf{ISAT} to facilicate human preprocessing.
+
+% At most 5 keywords.
+\keywords{\ac{IVFC}, Wavelet, Fluorescence microscopy, Cell morphology, Quantitative analysis}
+
+\end{abstract}
+
+

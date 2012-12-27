@@ -1,0 +1,495 @@
+% \ProvidePackage{wcf}
+
+% For online version.
+% Used to set margins being equal.
+% \setlength{\oddsidemargin}{5mm}
+% \setlength{\evensidemargin}{5mm}
+
+% newif
+% \newif\if@addpoints create the macros
+%     \if@addpoints
+%     \@addpointstrue
+%     \@addpointsfalse
+% The two switches can now be used in a constructions
+% \if@addpoints
+%   % Do stuff
+% \else
+%   % Do other stuff
+% \fi
+% Chinese version or not.
+\newif\ifwcf@cnVer
+% Now is english version, so
+\wcf@cnVerfalse
+
+% If you have an existing document with commands like \includegraphics{foo.eps} then LaTeX will include foo.eps but pdflatex will automatically convert it to foo.pdf and include that.
+% Note that it is better to leave off the extension; ie. use \includegraphics{foo}. Then pdflatex will include foo.pdf if it exists, but if not it will look for foo.eps and call epstopdf to create foo.pdf. 
+
+% 设置图形文件的搜索路径
+\usepackage{graphicx}
+%\graphicspath{{../images/}{ivfcChap/images/}}
+%\DeclareGraphicsExtensions{-eps-converted-to.pdf,-eps.pdf}
+%\newcommand\figRef[1]{Figure~ \ref{#1}}
+\newcommand{\figRef}[1]{\hyperref[#1]{\textbf{Figure~\ref{#1}}}}
+\newcommand\figSubref[1]{\hyperref[#1]{\textbf{\protect\subref{#1}}}}
+\newcommand\tabRef[1]{\hyperref[#1]{\textbf{Table~\ref{#1}}}}
+\newcommand\tabSubref[1]{\hyperref[#1]{\textbf{\protect\subref{#1}}}}
+\newcommand\todo[1]{\textbf{TODO: #1}}
+\newcommand{\degree}{\ensuremath{^\circ}}
+% Bold and parenthesized subref. Usage: \SB{a} ==> \textbf{(a)}.
+\newcommand\SB[1]{\textbf{(#1)}}
+
+% \includegraphics: Dots in filename.
+\usepackage[multidot]{grffile}
+
+% ulem provides commands for delete line: \sout.
+% \usepackage[normalem]{ulem}
+
+% Add frame border for figures and tables.
+\usepackage{float}
+% \floatstyle{boxed}
+% \restylefloat{figure}
+\newcommand\tableRuled{
+	\floatstyle{ruled}
+	\restylefloat{table}
+}
+\newcommand\tableNotRuled{
+	\floatstyle{plain}
+	\restylefloat{table}%
+}
+
+% Vertically aligned table.
+% Use \begin{tabular}{VVVV}.
+% To use m{} for columntype, package array is needed.
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1} }
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash} m{#1} }
+\newcolumntype{L}[1]{>{\raggedleft\arraybackslash} m{#1} }
+% \newcolumntype{V}{>{\centering\arraybackslash} m{.4\linewidth} }
+% \newcolumntype{V}{>{\centering\arraybackslash}m{\dimexpr.25\linewidth-2\tabcolsep}}
+
+
+% The booktabs package defines three different classes of rule (\toprule, \midrule and \bottomrule)
+\usepackage{booktabs}
+
+
+% Use mdframed to add border for figures.
+% \usepackage{mdframed}
+
+\usepackage[style=authoryear,doi=false,eprint=false,url=false,natbib=true,sorting=anyt,maxnames=2,minnames=1,maxbibnames=12,backend=biber]{biblatex}
+% If style=authoryear, \cite is same as \textcite in the text.
+% Now cite will behave like this: "Author (1999)" and if you do need "Author, 1999" you can use \npcite to get it. ("np" for "no parantheses").
+% \let\npcite\cite
+% \let\npCite\Cite
+% \let\cite\textcite
+% \let\Cite\Textcite
+%\bibliography{../refs/all}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Wcf settings for biblatex.
+% The style numeric redefines the multicitedelim in the file numeric.cbx.
+% \renewcommand*{\multicitedelim}{\addcomma\space}
+% \renewcommand*{\multicitedelim}{\addsemicolon\space}
+\renewcommand*{\multicitedelim}{\addspace and\addspace}
+\newcommand*{\multicitedelimSc}{\addsemicolon\space}
+
+% Make author names in the hypertext.
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{cite}}}
+  {\multicitedelimSc}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand*{\parencite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+  {\multicitedelimSc}
+  {\usebibmacro{postnote}}
+
+% Reference:
+% http://tex.stackexchange.com/questions/15951/hyperlink-name-with-biblatex-authoryear-biblatex-1-4b
+\DeclareCiteCommand{\textcite}
+  {\boolfalse{cbx:parens}}
+  {\usebibmacro{citeindex}%
+	\ifboolexpr{ ( not test {\iffieldundef{prenote}} and
+	               test {\ifnumequal{\value{citecount}}{1}} ) or
+	             ( not test {\iffieldundef{postnote}} and
+	               test {\ifnumequal{\value{citecount}}{\value{citetotal}}} ) }
+    {\usebibmacro{textcite}}
+    {\printtext[bibhyperref]{% Apply citation link to bibmacro output
+        \DeclareFieldAlias{bibhyperref}{default}% Prevent nested hyperlinks
+        \usebibmacro{textcite}%
+        \ifbool{cbx:parens}{\bibcloseparen\global\boolfalse{cbx:parens}}{}}}}
+  {\ifbool{cbx:parens}{\bibcloseparen\global\boolfalse{cbx:parens}}{}%
+   \multicitedelim}
+  {\usebibmacro{textcite:postnote}}
+\renewcommand\Cite[1]{\textcite{#1}}
+
+% Slashbox is deleted from texlive because of copyright.
+% \usepackage{slashbox}
+\usepackage{diagbox}
+\usepackage{setspace}
+\onehalfspacing
+
+% \usepackage{xcolor}
+
+% Caption should precede Subfig.
+\usepackage[font=small,format=plain,labelfont={bf,small},textfont={up,footnotesize}]{caption}
+\usepackage{subfig}
+\captionsetup{position=top}
+
+% sidesway table may have problem with this.
+% \makeatletter% Set distance from top of page to first float
+% \setlength{\@fptop}{5pt}
+% \makeatother
+
+% wcf: the package has some problem. Manually using \cleardoublepage and \phantomsection and \addcontensline.
+% 在默认状态下，tocbibind 宏包可将文稿中的参考文献、索引、表格目录和图形目录等标题及其所在页码自动地添加到标题目录中。
+% \usepackage{tocbibind}
+
+\usepackage{rotating}
+\usepackage[table]{xcolor}
+
+\usepackage{fix-cm}
+
+% 取消链接的颜色（黑白打印时）
+% \usepackage[unicode,bookmarks]{hyperref}
+\usepackage[bookmarks]{hyperref}
+% \hypersetup{colorlinks=false}
+\hypersetup{bookmarksnumbered, bookmarksopen, colorlinks, linkcolor=teal, citecolor=blue, urlcolor=magenta, plainpages=false, pdfstartview=FitW}
+% 如果文档内容用 UTF-8 编码，把 CJKbookmarks 改成 unicode
+% Set draft=true will disable all hypertexts.
+%\hypersetup{draft=false,colorlinks=true,citecolor=teal,linkcolor=teal,urlcolor=teal}
+% \usepackage{nameref}
+
+\usepackage{bookmark}
+% http://stackoverflow.com/questions/1037840/parts-in-pdflatex-table-of-contents
+% For:
+% \part{...}
+% \chapter{...}
+% \bookmarksetup{startatroot}
+% \chapter{...}
+% To produce:
+%    Chapter 1
+%    Part I
+%        Chapter 2
+%        Chapter 3
+%    Part II
+%        Chapter 4
+%        Chapter 5
+%    Chapter 6
+
+
+% 根据复旦的格式要求，纸张大小为A4纸， 正文用小四号字，页边距按Word中的默认设置。小四号字即12pt, Word中默认的页边距为:
+% 上边距=2.54cm, 下边距=2.54cm, 左边距=3.17cm, 右边距=3.17cm
+% 或者换算成更容易记忆的
+% 上边距=1in, 下边距=1in, 左边距=1.25in, 右边距=1.25in
+% \usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+
+% 默认公式居左。
+\usepackage[fleqn]{amsmath} % AMS LaTeX宏包
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts.
+
+% Math fonts.
+% \usepackage{mathpazo}
+% \usepackage{amssymb}
+\usepackage{mathtools}
+
+% CJKsetspaces,
+\usepackage[BoldFont,SlantFont,CJKnumber,CJKchecksingle]{xeCJK}
+% 让逗号比句号小点。
+% \usepackage{CJKpunct}
+%\punctstyle{CCT}
+% 句末用全角，其它用半角。
+\punctstyle{kaiming}
+%\setCJKmainfont[BoldFont=SimHei]{Microsoft YaHei}
+\setCJKmainfont[BoldFont={Microsoft YaHei Bold}]{Microsoft YaHei}
+% \setCJKmainfont{Microsoft YaHei}
+\setCJKmonofont{SimSun} % 设置缺省中文字体
+
+% % for \ifxetex.
+% \usepackage{ifxetex}
+% \ifxetex
+% 不要自己使用 xltxtra 和 xunicode 宏包。如果使用了，放在 fontspec 或 xeCJK 之后。
+% Fontspec已经被xeCJK调用。
+% \usepackage{fontspec}
+%	% xunicode package is designed to work with TeX engines that directly process UTF8 input and use Unicode and OpenType fonts.
+\usepackage{xunicode}
+\usepackage{xltxtra}
+% \defaultfontfeatures. This macro takes one argument that consists of all of feature options that will be applied by default to all subsequent \fontspec, et al., commands.
+% \defaultfontfeatures{Mapping=tex-text} % To support LaTeX quoting style
+
+%% English fonts.
+% Fourier for math | Utopia (scaled) for rm | Helvetica for ss | Latin Modern for tt
+% \usepackage{fourier} % math & rm
+% \usepackage{helvet} % ss
+% \renewcommand{\ttdefault}{lmtt} %tt
+% \fontfamily{segcb}
+% % \fontseries{m}
+% % \fontshape{it}
+% % \fontsize{12}{15}
+% \selectfont
+% Scale the fonts. See texdoc fontspec for detail.
+% \setmainfont[Scale=1.1]{Georgia}
+\setmainfont{Georgia}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+%\usepackage{utopia}
+% \usepackage{times}
+
+% For using 14pt in book class.
+% \usepackage{extsizes}
+
+% From Happytex.
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}
+\newcommand{\xiaochu}{\fontsize{36pt}{\baselineskip}\selectfont}
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}
+\newcommand{\xiaoer}{\fontsize{18pt}{\baselineskip}\selectfont}
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}
+\newcommand{\sihao}{\fontsize{14pt}{1.5\baselineskip}\selectfont}
+\newcommand{\xiaosi}{\fontsize{12pt}{\baselineskip}\selectfont}
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}
+\newcommand{\xiaowu}{\fontsize{9pt}{\baselineskip}\selectfont}
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}
+
+\usepackage{indentfirst} % 首行缩进
+\parindent 2em % 段首空两行。
+
+% \usepackage{changepage}
+% \usepackage[a4paper]{geometry}
+% \usepackage{gmeometric}
+
+% Make page margins visible.
+% \usepackage{showframe}
+% If you only need to show margins for a particular page, use:
+% 	\usepackage[noframe]{showframe}
+% and at the page:
+% 	\AddToShipoutPicture*{\ShowFramePicture}
+% The geometry package offers similar functionality:
+% 	\usepackage[showframe]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage{titlesec}
+
+% define the command in a CJK environment. Then you must make the definition global.
+\newenvironment{cnAbstract}
+{
+	\thispagestyle{empty}
+	\chapter*{\centering \Huge 摘\hspace{1em}要}
+	% 自中文摘要起双面印刷，之前部分单面印刷。
+%	\makeatletter\global\@openrightfalse
+}{}
+
+\newcommand\cnKeywords[1]
+{
+	\vspace{2ex}
+	\noindent{\bf 关键词:\hspace{1ex}} #1
+}
+
+\newenvironment{abstract}
+{
+	\chapter*{\centering \textsc{\Huge Abstract}}
+	\thispagestyle{empty}
+}
+{}
+%{\global\@openrighttrue\makeatother}
+
+\newcommand\keywords[1]{%
+\vspace{2ex}\noindent{\bf Keywords:\hspace{1ex}} #1}
+
+%%
+% \quad could only be used in math environment, and \quad = 1em, \qquad = 2em. For smaller spaces:
+% \, 	small space 	3/18 of a quad
+% \: 	medium space 	4/18 of a quad
+% \; 	large space 	5/18 of a quad
+% \! 	negative space 	-3/18 of a quad
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% wcf note: make odd pages have wide left margin, which is not the case in default setting.
+% Cheers, Chris
+% Edit: Contrary to the previous solutions, the provided code does not change the style of the document :)
+% http://stackoverflow.com/questions/2565755/latex-book-class-twosided-document-with-wrong-margins
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% 有时会出现\headheight too small的warning
+% \setlength{\headheight}{15pt}
+% Clear any defaults or a previous style definition.
+% The commands are an alternative interface to customising the headers/footers that fancyhdr offers, and so by not passing anything to them, it assumes that you want it all blank.
+\fancyhf{}
+\renewcommand\footrulewidth{0.5pt}
+\renewcommand\headrulewidth{0.5pt}
+\ifwcf@cnVer
+% LO and OL are both fine.
+%	\fancyfoot[LO,RE]{\thepage}
+	\fancyfoot[RO,LE]{\thepage}
+\else
+	\usepackage{lastpage}
+	\fancyfoot[RO,LE]{\thepage\ of \pageref{LastPage}}
+\fi
+% \cfoot{Chaofeng Wang, PICB}
+\cfoot{}
+% \fancyfoot[CE,CO]{Chaofeng Wang, PICB}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+% There is no variable \sectionname.
+\renewcommand{\sectionmark}[1]{\markright{Section\ \thesection.\ #1}{}}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+% \fancypagestyle{plain}
+%	{\fancyhf{}\renewcommand{\headrulewidth}{0pt}}
+% \renewcommand\chaptermark[1]{\markboth{\chaptername~ #1}{}}
+% \renewcommand\sectionmark[1]{\markright{\thesection~ #1}}
+
+% % To add the abbreviation list to the table of content
+% % \usepackage[intoc]{nomencl}
+% % Has been taken cared of by wcf.sty.
+% \usepackage{nomencl}
+% \makenomenclature
+% % The title of the list can be changed using the following command:
+% \renewcommand{\nomname}{List of Abbreviations}
+% \usepackage[printonlyused,withpage]{acronym}
+% Glossaries could sort acronyms.
+\usepackage[acronym,toc,shortcuts]{glossaries}
+% glossaries package doesn't define \acfi as in acronym package!
+\newcommand\acfi[1]{\emph{\acf{#1}}}
+% The glossaries package is too old to handle \ac in \section.
+\newcommand\acProt[1]{\protect\ac{#1}}
+% \renewcommand\ac[1]{\protect\ac{#1}}
+% \acrodef{label}[acronym]{written out form}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 设置目录深度
+\setcounter{tocdepth}{3}
+
+\ifwcf@cnVer
+%% Chinese TOC.
+\renewcommand{\contentsname}{目\hspace{1em}录}
+\renewcommand{\listfigurename}{插图目录}
+\renewcommand{\listtablename}{表格目录}
+% \renewcommand{\refname}{参考文献}
+% \renewcommand{\abstractname}{摘\quad要}
+\renewcommand{\indexname}{索\hspace{1em}引}
+\renewcommand{\tablename}{表}
+\renewcommand{\figurename}{图}
+\fi
+
+% 章节格式设置。
+\usepackage{titlesec}
+% \titleformat{command}[shape]{format}{label}{sep}{before-code}[after-code]
+\ifwcf@cnVer
+	\titleformat{\chapter}{\centering\huge\bfseries}{第\CJKnumber{\thechapter}章}{1em}{\textbf}
+\fi
+
+
+% Set first name list in boldface
+% Method 1:
+% \makeatletter
+\def\act@on@bibmacro#1#2{%
+  \expandafter#1\csname abx@macro@\detokenize{#2}\endcsname}
+\def\patchbibmacro{\act@on@bibmacro\patchcmd}
+\def\pretobibmacro{\act@on@bibmacro\pretocmd}
+\def\apptobibmacro{\act@on@bibmacro\apptocmd}
+\def\showbibmacro{\act@on@bibmacro\show}
+% \makeatother
+\newtoggle{bbx:bold}
+\AtEveryBibitem{\toggletrue{bbx:bold}}
+\pretobibmacro{name:last-first}{\iftoggle{bbx:bold}{\bfseries}{}}{}{}
+\apptobibmacro{name:last-first}
+  {\ifnumequal{\value{listcount}}{\value{liststop}}
+     {\global\togglefalse{bbx:bold}}
+     {}}
+  {}{}
+% Method 2 not working:
+% \DeclareFieldFormat*{name}{\mkbibbold{#1}}
+% \renewbibmacro*{name}{%
+%   \printfield{name}%
+%   \setunit*{\adddot\space}}%
+
+% Make Volumn number bold.
+\DeclareFieldFormat*{volume}{\mkbibbold{#1}}
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit*{\addcomma}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+
+% Make title quotes disappear.
+\DeclareFieldFormat*{title}{#1}
+\renewbibmacro*{title}{%
+  \printfield{title}%
+  \setunit*{\adddot\space}}%
+
+%%%
+
+% Starred Chapter.
+% \cleardoublepage does the right thing, even if your document is single-sided — in that case, it’s a synonym for \clearpage.
+\newenvironment{wcfChaps}[1]{\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{#1} \label{wcfChaps: #1} \chapter*{#1} \renewcommand{\thesection}{\arabic{section}}}
+{\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}}
+% When you define a \label outside a figure, a table, or other floating objects, the label points to the current section. In some case, this behavior is not what you'd like and you'd prefer the generated link to point to the line where the \label is defined. This can be achieved with the command \phantomsection. \hypertarget{}{} is equal to \phantomsection.
+% \phantomsection
+% \addcontentsline{toc}{chapter}{Introduction}
+% \chapter*{Introduction}
+%
+% % The introduction chapter is un-numbered, and the chapter number is 0, which is to be suppressed.
+% \renewcommand{\thesection}{\arabic{section}}
+%
+% % Recover chapter number.
+% \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+
+\newcommand{\wcfToc}{%
+\cleardoublepage \phantomsection%
+\addcontentsline{toc}{chapter}{\contentsname}%
+\tableofcontents%
+}
+
+\newcommand{\wcfLot}{%
+\cleardoublepage \phantomsection%
+\addcontentsline{toc}{chapter}{\listtablename}%
+\listoftables%
+}
+
+\newcommand{\wcfLof}{%
+\cleardoublepage \phantomsection%
+\addcontentsline{toc}{chapter}{\listfigurename}%
+\listoffigures%
+}
+
+\newcommand{\wcfNomen}{%
+\cleardoublepage \phantomsection%
+\addcontentsline{toc}{chapter}{\nomname}%
+\printnomenclature%
+}
+
+\usepackage{xargs}
+% The first argument is for the title.
+% Usage: \wcfBib{title}[heading][section]
+\newcommandx{\wcfBib}[3][usedefault,2=bibliography,3=1]{%
+\cleardoublepage \phantomsection%
+\addcontentsline{toc}{chapter}{#1}%
+\printbibliography[title=#1,heading=#2,section=#3]%
+}
+% \newcommandx*\coord[3][2=1,3=n,usedefault]{(#2_{#1},\ldots,#2_{#3})}
+% $\coord{x}$
+% (1x,...,1n)
+% $\coord{y}[0]$
+% (0y,...,0n)
+% $\coord{z}[][m]$
+% (1z,...,1m)
+% $\coord{t}[0][m]$
+% (0t,...,0m)
+
+% Check if tocbibind is loaded.
+\@ifpackageloaded{tocbibind}{\errmessage{Error: tocbibind clash with wcf.sty.}}{}
+

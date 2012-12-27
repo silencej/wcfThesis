@@ -1,0 +1,38 @@
+
+\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Introduction}
+\chapter*{Introduction}
+\renewcommand{\thesection}{\arabic{section}}
+
+\section{The advantages of fluorescence microscopy}
+
+The emergence of a spectrum of fluorescence markers in combination with microscopy has opened a new domain to study biological systems. Researchers now are accustomed to labelling biological samples with fluorescent dyes, which encompass fluorescein, rhodamine, coumarin, DAPI (4',6-diamidino-2-phenylindole), Hoechst stain, MitoTracker, GFP, Quantum dots, etc.
+ The popularity for fluorescence microscopy in cytological research is mostly due to the birth of \ac{GFP} and a series of further improvements (such as fluorescence proteins with distinct excitation and emission spectra). Researchers are able now to construct a fused protein expressed from a target gene combined with the \ac{GFP} gene, and when the target gene is active, its product can be easily traced by its fluorescence signal.
+ Some dyes are used as probes, such as DAPI and Hoechst stain which are frequently used to trace DNA or cell nucleolus, and MitoTracker probes mitochondria in live cells. Quantum dots, which belong to nanocrystal material, are increasingly used as an alternative to organic dyes and fluorescent proteins for they have stronger signal and are more stable against photobleaching \parencite{Walling2009Quantum}.
+
+% A science paper on quantum dots.
+% http://www.sciencemag.org/content/307/5709/538.short
+
+Confocal technique is another propellant for the popularity of fluorescence microscopy. Confocal microscopy only has the light from a confocal plane recorded, thus improves \ac{SNR}, and also brings up the 3D imaging technique by optical sectioning (see reviews by \Cite{Agard1984Optical, Conchello2005Optical}).
+% \Cite{Cremer1978} propose the idea of laser-scanning-microscopy to increase the depth of focus.
+
+For the reasons that fluorescence microscopy detects signal against dark background and the fluorescence dye is labelled with high specificity, fluorescence microscopy is more sensitive and easier for sample examination versus conventional microscopy, such as in tuberculosis research when compared to sputum smear microscopy \footnote{Sputum smear is a cytological smear for physiological examination with the sputum from the respiratory system} \parencite{Steingart2006Fluorescence}.
+% \Cite{Steingart2006Fluorescence} systematically reviewed the application of fluorescence microscopy in tuberculosis research versus conventional sputum smear microscopy \footnote{Sputum smear is a cytological smear for physiological examination with the sputum from the respiratory system}, and concluded that the fluorescence microscopy is more sensitive, and fluorochrome-staining is easier for users to examine when compared to conventional staining.
+
+Fluorescence microscopy are also popular with researchers studying protein co-locolization. Labelling two or more target proteins with fluorescence dyes of different emission wavelengths (e.g. \ac{RFP} and \ac{GFP}, \ac{FITC} and Cy5, etc.) in a cell at the same time, people could find the co-localization relationships between them. Another option for co-locolazation is the \ac{FRET} microscopy, which usually use \ac{CFP}-\ac{YFP} pairs as fluorophores. \Cite{Schubert2006Analyzing} adopted a labeling-imaging-bleaching-relabling strategy instead, and is able to obtain a so-called toponome data.
+
+Last but not least, the fluorescence signal in fluorescence microscopy is easy to be quantified. Increasingly many studies work on the quantitative fluorescence signals, aiming at mining and modeling the intrinsic relation with biological significance. The work involved in this thesis is embarking on developing computational tools to automate the processing and analysis of fluoresence signal data either from a newly established instrument, namely \ac{IVFC}, or from common imaging system when morphological quantification is demanded.
+
+% \cite{Bolte2006Guided} provided a good review on co-locolization.
+
+\section{Overview of analysis methods in the thesis}
+
+Applications of fluoresence microscopy in biological research are so wide-spread that the data produced by it is uncountable either in type or amount. Both the aims and approaches of researches are different for data from different applications and fields.
+
+This thesis deals with two kinds of data: one is one dimensional time signals coming from the \ac{IVFC}, where the aim is to automatically identify the cell peaks from it. The other is to quantify the morphological differences of \aclp{TGC} from their fluorescence microscopy images, which are two dimensional.
+
+The methods used for those two projects are different. For \ac{IVFC} data, a wavelet based de-noising is first applied, which is followed by a cell peak picking procedure using \ac{FSA}. As for the morphological image data, we first applied image de-noiseing techniques, made segmentations with help from a semi-automatic tool, then applied image skeletonization algorithm and decomposed the images into feature vectors based on the image skeleton.
+
+While the two applications studied in this thesis are quite diverse, there are some common processing methods used in both cases. First, a de-noising is usually needed as there are a lot of perturbations in the biological wet labs that bring noises. Second, a presumed model is to be defined first in order to decompose the data, e.g., we assumed a white Gaussian model for the signal noise in \ac{IVFC} data, and the constructed \ac{FSA} could be regarded as just another non-parametric model, instead of a parametric model which describes well the whole cell peak sets. We also assumed that the morphology of \aclp{TGC} could be decomposed in skeleton structures. We also assumed estimators and models for each feature, such as the branch width and the waviness. Last, in computation of the wavy features, we borrowed the \ac{FSA}-based peak picking method from the \ac{IVFC} project to detect waviness represented by the significant peaks in the absolute deviation profile.
+
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+

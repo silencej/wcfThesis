@@ -1,0 +1,156 @@
+\documentclass[openright,twoside,a4paper,12pt]{book}
+% Makes chapters begin only on right hand pages.
+% \documentclass[oneside,a4paper,12pt]{book}
+
+\usepackage{../wcfThesis/wcfThesis}
+
+%%
+% \title{\emph{branMorph}: An image skeletonization based tool for branching cell morphology analysis}
+\title{Quantitative analysis of fluorescence microscopic signals and images}
+\author{Chaofeng Wang}
+\date{\today}
+% \date{2012年10月8日}
+
+% \usepackage{layouts}
+
+\graphicspath{{../images/}}
+
+%\bibliography{../refs/all}
+% Must specify the .bib extension.
+\addbibresource{../refs/all.bib}
+% \addbibresource{ivfcChap/ivfcRefs/ivfc.bib}
+
+% etex for 'no room for a new counter' error.
+% \usepackage{etex}
+% \usepackage{makeidx}
+% \makeindex
+% The showidx causes 'no room for a new counter' error and can't be fixed.
+% The showidx package that comes with LaTeX prints out all index entries in the left margin of the text. This is quite useful for proofreading a document and verifying the index.
+%\usepackage{showidx}
+
+% \usepackage{color}
+% \definecolor{grayOutText}{gray}{0.7}
+
+\makeglossaries
+\include{chapter/acronyms}
+
+\newcommand\calcium{Ca$^{2+}$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% For displaying layout.
+% \begin{figure}
+% \drawdimensionstrue
+% \currentpage
+% \pagedesign
+% \end{figure}
+
+% Flags: web,en/cn.
+\maketitle
+
+%% frontmatter makes the page number independent on main content.
+\frontmatter
+
+% 致谢
+\include{chapter/thanks}
+
+% \include{chapter/abstract}
+\include{chapter/abstract}
+
+\wcfToc
+
+\makeatletter\@openrightfalse
+\wcfLot
+\wcfLof
+% \include{chapter/acronyms}
+\printglossary[type=\acronymtype,style=long]
+%\printglossary[type=\acronymtype,style=altlistgroup]%alternative style
+
+% \wcfNomen
+% \printindex
+\@openrighttrue\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+
+\begin{refsection}
+
+% \part*{Introduction}
+
+\include{chapter/introduction}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part I.
+
+%\makeatletter\@openrightfalse
+\part{De-noising and cell peak picking in IVFC signals}
+
+%\@openrighttrue\makeatother
+% Reset counter.
+% \setcounter{chapter}{0}
+
+% \include{chapter/text1}
+Describe the IVFC work here.
+
+\end{refsection}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part II.
+
+\part{\emph{branMorph}: An image skeletonization based tool for branching cell morphology analysis}
+\begin{refsection}
+
+% \setcounter{chapter}{0}
+% \include{chapter/branMorph2}
+Describe the branMorph here.
+
+\end{refsection}
+
+% Part II ends.
+\bookmarksetup{startatroot}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\include{chapter/supple}
+
+\backmatter
+
+% \newpage
+% bibintoc, make it into TOC.
+% \printbibliography[title=Bibliography I,section=1,heading=bibintoc]
+\wcfBib{Bibliography I}[][1]
+% \printbibliography[title=Bibliography I,section=1]
+% \nocite is used to include references which are not cited.
+% \nocite{*}
+
+\wcfBib{Bibliography II}[][2]
+
+%	\include{chapter/chap-req}
+
+% 参考文献
+% 使用 BibTeX
+%\bibliographystyle{plain}	% (uses file "plain.bst")
+% \bibliography{bib/main}		% expects file "myrefs.bib"
+
+% \bibliography{enMain}
+% ''bibtex enMain.aux''. The bib file is only spesified here, not the input for bibtex command, which accept the aux filename.
+% And don't waste time towrite comments and set tabbings for all.bib, since JabRef will rewrite them all!
+% The bibtex will only include the cited items, so put all bibs in a centralized file.
+% \bibliography{../refs/all}
+%\bibliography{bib/tex}
+
+% 不使用 BibTeX
+% \include{chapter/bib}
+
+% 个人简历
+\include{chapter/resume}
+
+% 发表文章目录
+\include{chapter/pub}
+
+\end{document}
