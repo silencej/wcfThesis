@@ -1,5 +1,5 @@
 # -*- mode:makefile; -*-
-# Copyright, 2012, Chaofeng Wang, owen263@gmail.com.
+# Copyright, 2012, 2013, Chaofeng Wang, owen263@gmail.com.
 # You are free:
 # to Share — to copy, distribute and transmit the work.
 # to Remix — to adapt the work.
@@ -76,7 +76,7 @@ else
 	${BIBTEX} $(*F)
 #	ls *blx.aux | xargs -L 1 bibtex
 #	makeglossaries ${*F}
-	$(if $(findstring makeGlossFlag,1), makeglossaries ${*F})
+	$(if $(findstring ${makeGlossFlag},1), makeglossaries ${*F})
 #	-makeindex $(*F)
 #	-makeindex enMain.nlo -s nomencl.ist -o enMain.nls
 	$(LATEX) $(LATEX_FLAGS) $(*F)
