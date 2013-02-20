@@ -1,4 +1,4 @@
-% Copyright, 2012, Chaofeng Wang, owen263@gmail.com.
+% Copyright, 2012, 2013, Chaofeng Wang, owen263@gmail.com.
 % You are free:
 % to Share — to copy, distribute and transmit the work.
 % to Remix — to adapt the work.
@@ -443,7 +443,9 @@
 
 % Starred Chapter.
 % \cleardoublepage does the right thing, even if your document is single-sided — in that case, it’s a synonym for \clearpage.
-\newenvironment{wcfChaps}[1]{\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{#1} \label{wcfChaps: #1} \chapter*{#1} \renewcommand{\thesection}{\arabic{section}}}
+\newenvironment{wcfChaps}[1]{\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{#1} \label{wcfChaps: #1} \chapter*{#1} \renewcommand{\thesection}{\arabic{section}}
+\markboth{}{\textsc{#1}}
+}
 {\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}}
 % When you define a \label outside a figure, a table, or other floating objects, the label points to the current section. In some case, this behavior is not what you'd like and you'd prefer the generated link to point to the line where the \label is defined. This can be achieved with the command \phantomsection. \hypertarget{}{} is equal to \phantomsection.
 % \phantomsection
